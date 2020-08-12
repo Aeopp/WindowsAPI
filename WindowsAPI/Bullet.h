@@ -62,7 +62,24 @@ public:
 		return bDie; 
 	}
 
+	// TODO :: 테스트 한뒤에 삭제하기
+	 void destroy_draw(const  HDC hdc)
+	{
+		const wchar_t* destroy_message = L"  소멸 !! ";
+		const auto [x,y] = super::get_center();
+		const float _length = super::get_length();
+
+		RECT _Rect{ x - _length
+				,y - _length,
+				x + _length,
+				y + _length };
+
+		// 소멸되었다는 메시지를 출력한다.
+		DrawText(hdc, destroy_message,-1, &_Rect,
+				DT_CENTER | DT_WORDBREAK);
+	}
 public:
+	
 		static RECT get_bullet_fence()
 		{
 			RECT _client_rect;
@@ -83,7 +100,7 @@ public:
 
 			return _client_rect;
 		}
-
+		
 		static void Draw_bullet_fence(const HDC hdc)
 		{
 			RECT bullet_fence = get_bullet_fence();

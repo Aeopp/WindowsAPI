@@ -249,14 +249,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         // 총알의 경계선을 지정합니다.
         // 경계선 사이즈 만큼 클라이언트 좌표에서 줄여서 사각형을 그립니다.
-    
-        Bullet<std::nullptr_t>::Draw_bullet_fence(hdc);
+        
+        using dummy = char;
+
+        Bullet<dummy>::Draw_bullet_fence(hdc);
       
         global::player.Draw(hdc);
 
         for (auto& bullet : global::bullets)
         {
-            bullet.Draw(hdc);
+			bullet.Draw(hdc);
         }
 
         RECT rt{ 0,0,250,250 };
@@ -265,7 +267,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ss << L"총알 개수 : " << global::bullets.size();
 
         DrawText(hdc, ss.str().c_str(), -1, &rt, DT_CENTER | DT_WORDBREAK);
-
         
         /** 더블버퍼링 끝처리 입니다. **/
         tmpDC = hdc;
