@@ -10,13 +10,6 @@
 #include <sstream>
 #include <vector>
 
-#define MAX_LOADSTRING 100
-
-// 전역 변수:
-HINSTANCE hInst;                                // 현재 인스턴스입니다.
-WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
-WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
-HWND hWnd;
 
 namespace global 
 {
@@ -43,17 +36,6 @@ namespace global
                 ++iter; 
             }
         }
-     /*   for (auto iter = std::begin(bullets); iter != std::end(bullets);)
-        {
-            if ((*iter).IsDie())
-            {
-                iter = bullets.erase(iter);
-            }
-            else
-            {
-                ++iter; 
-            }
-        };*/
     };
     static void mouse_dir_fire(const float x,const float y,const float length)
     {
@@ -95,8 +77,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // TODO: 여기에 코드를 입력합니다.
 
     // 전역 문자열을 초기화합니다.
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_WINDOWSAPI, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDS_APP_TITLE, global::szTitle, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_WINDOWSAPI, global::szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
@@ -124,8 +106,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             global::Logic();
 
-            InvalidateRect(hWnd, nullptr, false);
-            UpdateWindow(hWnd);
+            InvalidateRect(global::hWnd, nullptr, false);
+            UpdateWindow(global::hWnd);
         }
     }
 
@@ -154,7 +136,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WINDOWSAPI);
-    wcex.lpszClassName  = szWindowClass;
+    wcex.lpszClassName  = global::szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
@@ -172,18 +154,18 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+    global::hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   global::hWnd = CreateWindowW(global::szWindowClass, global::szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
+   if (!global::hWnd)
    {
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   ShowWindow(global::hWnd, nCmdShow);
+   UpdateWindow(global::hWnd);
 
    return TRUE;
 }
@@ -209,7 +191,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                DialogBox(global::hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
@@ -252,6 +234,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         hdc = BeginPaint(hWnd, &ps);
 
+        
+		// TODO: 여기에 그리기 코드를 추가합니다.
+
+        
         GetClientRect(hWnd, &bufferRT);
         MemDC = CreateCompatibleDC(hdc);
         BackBit = CreateCompatibleBitmap(hdc, bufferRT.right, bufferRT.bottom);
@@ -261,22 +247,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         hdc = MemDC;
         MemDC = tmpDC;
 
+        // 총알의 경계선을 지정합니다.
+        // 경계선 사이즈 만큼 클라이언트 좌표에서 줄여서 사각형을 그립니다.
+    
+        Bullet<std::nullptr_t>::Draw_bullet_fence(hdc);
+      
         global::player.Draw(hdc);
+
         for (auto& bullet : global::bullets)
         {
             bullet.Draw(hdc);
         }
+
         RECT rt{ 0,0,250,250 };
         std::wstringstream ss;
+
         ss << L"총알 개수 : " << global::bullets.size();
 
         DrawText(hdc, ss.str().c_str(), -1, &rt, DT_CENTER | DT_WORDBREAK);
 
-        // TODO: 여기에 그리기 코드를 추가합니다.
-        /*for (int i = 0; i < 10; i++) {
-            Rectangle(hdc, rand() % bufferRT.right, rand() % bufferRT.bottom, rand() % bufferRT.right, rand() % bufferRT.bottom);
-            Sleep(30);
-        }*/
         
         /** 더블버퍼링 끝처리 입니다. **/
         tmpDC = hdc;

@@ -11,7 +11,7 @@ class DrawObject
 private:
 	float center_x= 0.0f;
 	float center_y = 0.0f;
-	 float length{};
+	float length{};
 public :
 	DrawObject(const float init_x, const float init_y,
 		const float init_length)
