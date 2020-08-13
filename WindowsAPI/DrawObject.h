@@ -62,10 +62,31 @@ public:
 			Ellipse(hdc, center_x - length, center_y - length, center_x + length, center_y + length);
 		}
 	}
+	RECT get_rect()const&;
+
 	void Move(const float x, const float y)&
 	{
 		center_x += x;
 		center_y += y;
 	}
+
+	virtual void Update();
+};
+
+template<typename DrawType>
+ RECT DrawObject<DrawType>::get_rect() const&
+{
+	 using RECT_variable_type = LONG;
+
+	 return RECT{ 
+		 LONG(center_x - length), 
+			  LONG(center_y - length),
+			  LONG(center_x + length),
+			  LONG(center_y + length) };
+}
+
+template<typename DrawType>
+void DrawObject<DrawType>::Update()
+{
 };
 

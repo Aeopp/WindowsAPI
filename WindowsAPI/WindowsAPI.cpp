@@ -9,13 +9,17 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "monster.h"
 
 
 namespace global 
 {
     DrawObject<draw_rect> player{ 500.0f,500.0f ,50.0f};
+
+    std::vector< MoveableObject<draw_rect>>monsters;
     std::vector<Bullet<draw_circle>> bullets;
-    static void Fire(const float, const float, const float, const float, const float);
+
+    static void Fire(const float, const float, const float, const float, const float,const float);
     static void Logic()
     {
         if(hWnd)
@@ -24,20 +28,43 @@ namespace global
             {
                 bullet.Update(hWnd);
             }
+            for (auto& monster : monsters)
+            {
+				monster.MoveByDir();
+            }
         }
         for (auto iter = std::begin(bullets); iter != std::end(bullets);)
         {
             if (iter->IsDie())
             {
-                iter = bullets.erase(iter); 
+                iter = bullets.erase(iter);
             }
             else 
             {
+                for (auto monster_iter = std::begin(monsters); 
+                monster_iter != std::end(monsters); )
+                {
+                    RECT intersect_rect{};
+                    RECT dst_rect = iter->get_rect();
+                    RECT src_rect = monster_iter->get_rect();
+
+                    bool is_intersect = IntersectRect(&intersect_rect, &dst_rect, &src_rect);
+
+                    if (is_intersect)
+                    {
+                        monster_iter->set_die(true);
+                        monster_iter = monsters.erase(monster_iter);
+                    }
+                    else
+                    {
+                        ++monster_iter;
+                    }
+                };
                 ++iter; 
             }
         }
     };
-    static void mouse_dir_fire(const float x,const float y,const float length)
+    static std::pair<float, float> get_player_to_mouse_dir(const float x, const float y, const float length)
     {
         POINT _mouse_pt;
         GetCursorPos(&_mouse_pt);
@@ -47,16 +74,32 @@ namespace global
 
         float dir_x = _mouse_pt.x / dir_length;
         float dir_y = _mouse_pt.y / dir_length;
-        Fire(x, y, length, dir_x, dir_y);
+
+        return { dir_x,dir_y };
+    };
+
+    static void fire_from_player_to_mouse(const float x, const float y, const float length,const float 
+    speed)
+    {
+        POINT _mouse_pt;
+        GetCursorPos(&_mouse_pt);
+        _mouse_pt.x -= x;
+        _mouse_pt.y -= y;
+        float dir_length = std::sqrt(std::pow(_mouse_pt.x, 2) + std::pow(_mouse_pt.y, 2));
+
+        float dir_x = _mouse_pt.x / dir_length;
+        float dir_y = _mouse_pt.y / dir_length;
+       global::Fire(x, y, length, dir_x, dir_y,speed);
     }
     static void Fire(
         const float x,
         const float y,
         const float length,
         const float dir_x,
-        const float dir_y)
+        const float dir_y,
+        const float speed)
     {
-        bullets.emplace_back(x, y, length, dir_x, dir_y);
+        bullets.emplace_back(x, y, length, dir_x, dir_y,speed);
     };
 }
 
@@ -218,8 +261,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             global::player.Move(0, +10);
             break;
         case VK_SPACE:
-            global::mouse_dir_fire(global::player.get_center().first, 
-            global::player.get_center().second, 50.0f);
+            global::fire_from_player_to_mouse(global::player.get_center().first, 
+            global::player.get_center().second, 10.0f,5.f);
+            break;
+        case VK_TAB:
+            auto monster_spawn{ [] (const float spawn_x,const float spwan_y)
+                {
+                    const auto[x,y] =  global::get_player_to_mouse_dir
+                                   (global::player.get_center().first,
+                                    global::player.get_center().second,
+                                    25.0f);
+                   
+					global::monsters.emplace_back(spawn_x, spwan_y, 25.f, x, y);
+                } };
+
+            monster_spawn(1, 1);
             break;
         default:
             break;
@@ -233,10 +289,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT ps;
 
         hdc = BeginPaint(hWnd, &ps);
-
         
 		// TODO: 여기에 그리기 코드를 추가합니다.
-
         
         GetClientRect(hWnd, &bufferRT);
         MemDC = CreateCompatibleDC(hdc);
@@ -255,7 +309,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         Bullet<dummy>::Draw_bullet_fence(hdc);
       
         global::player.Draw(hdc);
-
+     
+        for (auto& monster : global::monsters)
+        {
+            monster.Draw(hdc);
+        }
         for (auto& bullet : global::bullets)
         {
 			bullet.Draw(hdc);
@@ -264,7 +322,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         RECT rt{ 0,0,250,250 };
         std::wstringstream ss;
 
-        ss << L"총알 개수 : " << global::bullets.size();
+        ss << L"총알 개수 : " << global::bullets.size() << "\n\n";
+        ss << L"몬스터 숫자 : " << global::monsters.size() << "\n\n";
 
         DrawText(hdc, ss.str().c_str(), -1, &rt, DT_CENTER | DT_WORDBREAK);
         

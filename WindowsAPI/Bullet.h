@@ -11,12 +11,22 @@ private:
 	float dir_x{};
 	float dir_y{};
 	bool bDie{ false };
+	float speed{ 1.f };
 public:
+	inline float get_speed()const&
+	{
+		return speed; 
+	}
+	inline void set_speed(const float _speed)&
+	{
+		this->speed  = _speed; 
+	}
 	Bullet(const float init_x, const float init_y,
-		const float init_length,const float init_dir_x,const float init_dir_y)
+		const float init_length,const float init_dir_x,const float init_dir_y,
+		const float init_speed)
 		:
 		DrawObject<DrawType>(init_x,init_y,init_length),
-		dir_x{ init_dir_x },dir_y{init_dir_y}
+		dir_x{ init_dir_x },dir_y{init_dir_y},speed{init_speed}
 	{};
 	Bullet() = default; 
 	
@@ -41,7 +51,7 @@ public:
 public:
 	void Update(HWND hwnd)&
 	{
-		super::Move(dir_x, dir_y);
+		super::Move(dir_x*speed, dir_y* speed);
 		RECT _windowRECT = Bullet::get_bullet_fence();
 
 		const auto [x,y]= super::get_center();
@@ -79,7 +89,6 @@ public:
 				DT_CENTER | DT_WORDBREAK);
 	}
 public:
-	
 		static RECT get_bullet_fence()
 		{
 			RECT _client_rect;
