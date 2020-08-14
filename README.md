@@ -10,6 +10,6 @@
 
 ### 0813
 * 몬스터 생성 이후 총알과 충돌할 시 몬스터 삭제
-* [피타고라스의 정리를 증명](https://aeopp.github.io/2020-08-13-2020-08-14-Pythagoras-theorem-proof/)
+* [피타고라스의 정리를 증명](https://aeopp.github.io/2020-08-14-Pythagoras_theorem_proof/)
    
 
