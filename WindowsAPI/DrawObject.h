@@ -48,7 +48,7 @@ public:
 	{
 		return length;
 	}
-	void Draw(HDC hdc)const&
+	virtual void Draw(HDC hdc)const&
 	{
 	/*	SetPixel(hdc, center_x, center_y, COLORREF(0xff00ff));
 		SetPixel(hdc, center_x+1, center_y+1, COLORREF(0xff00ff));*/
@@ -71,6 +71,10 @@ public:
 	}
 
 	virtual void Update();
+
+public:
+	void set_center(const decltype(center_x) x, const decltype(center_y) y) & noexcept;
+	void set_length(const float length) & noexcept;
 };
 
 template<typename DrawType>
@@ -88,5 +92,18 @@ template<typename DrawType>
 template<typename DrawType>
 void DrawObject<DrawType>::Update()
 {
+
+}
+template<typename DrawType>
+void DrawObject<DrawType>::set_center(const decltype(center_x) x, const decltype(center_y) y) & noexcept
+{
+	center_x = x;
+	center_y = y;
+};
+
+template<typename DrawType>
+void DrawObject<DrawType>::set_length(const float length) & noexcept
+{
+	this->length = length; 
 };
 

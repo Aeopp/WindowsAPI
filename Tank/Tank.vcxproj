@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{96380304-4693-4cab-abd9-bf63b6e2c7e6}</ProjectGuid>
-    <RootNamespace>WindowsAPI</RootNamespace>
+    <ProjectGuid>{9f6a8dc8-3810-44b2-aa24-0299ef4bf9f2}</ProjectGuid>
+    <RootNamespace>Tank</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Missile</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -123,7 +122,6 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,39 +147,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="math.h" />
-    <ClInclude Include="monster.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="game_interface.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="DrawObject.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Tank.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="WindowsAPI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="math.cpp" />
-    <ClCompile Include="monster.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="game_interface.cpp" />
     <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="DrawObject.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="WindowsAPI.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WindowsAPI.rc" />
+    <ResourceCompile Include="Tank.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico" />
-    <Image Include="WindowsAPI.ico" />
+    <Image Include="Tank.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Missile", "WindowsAPI.vcxpr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "picture_draw", "..\picture_draw\picture_draw.vcxproj", "{EED1B402-B3B0-4452-92B7-7F3A82EF9761}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tank", "..\Tank\Tank.vcxproj", "{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{EED1B402-B3B0-4452-92B7-7F3A82EF9761}.Release|x64.Build.0 = Release|x64
 		{EED1B402-B3B0-4452-92B7-7F3A82EF9761}.Release|x86.ActiveCfg = Release|Win32
 		{EED1B402-B3B0-4452-92B7-7F3A82EF9761}.Release|x86.Build.0 = Release|Win32
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Debug|x64.ActiveCfg = Debug|x64
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Debug|x64.Build.0 = Debug|x64
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Debug|x86.ActiveCfg = Debug|Win32
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Debug|x86.Build.0 = Debug|Win32
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Release|x64.ActiveCfg = Release|x64
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Release|x64.Build.0 = Release|x64
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Release|x86.ActiveCfg = Release|Win32
+		{9F6A8DC8-3810-44B2-AA24-0299EF4BF9F2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

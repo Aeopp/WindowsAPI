@@ -10,20 +10,23 @@
 #include <sstream>
 #include <vector>
 #include "monster.h"
-
+#include "player.h"
 
 namespace global 
 {
-    DrawObject<draw_rect> player{ 500.0f,500.0f ,50.0f};
-
+    player<draw_rect> _tank{};
+   
     std::vector< MoveableObject<draw_rect>>monsters;
     std::vector<Bullet<draw_circle>> bullets;
 
-    static void Fire(const float, const float, const float, const float, const float,const float);
+    void Fire(const float, const float, const float, const float, const float,const float);
+
     static void Logic()
     {
         if(hWnd)
         {
+            global::_tank.Update();
+
             for (auto& bullet : bullets)
             {
                 bullet.Update(hWnd);
@@ -143,7 +146,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             GetMessage(&msg, NULL, 0, 0);
             TranslateMessage(&msg);
             DispatchMessage(&msg);
-            
         }
         else
         {
@@ -249,27 +251,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (wParam)
         {
         case 'A':
-            global::player.Move(-10, 0);
+            global::_tank.add_barrel_angle(math::degree_to_radian(-5.f));
             break;
         case 'D':
-            global::player.Move(+10, 0);
+			global::_tank.add_barrel_angle(math::degree_to_radian(+5.f));
             break;
         case 'W':
-            global::player.Move(0, -10);
+            global::_tank.move_from_barrel_dir(true);
             break;
         case 'S':
-            global::player.Move(0, +10);
+			global::_tank.move_from_barrel_dir(false);
             break;
         case VK_SPACE:
-            global::fire_from_player_to_mouse(global::player.get_center().first, 
-            global::player.get_center().second, 10.0f,5.f);
+            global::_tank.fire_from_barrel();
             break;
         case VK_TAB:
             auto monster_spawn{ [] (const float spawn_x,const float spwan_y)
                 {
                     const auto[x,y] =  global::get_player_to_mouse_dir
-                                   (global::player.get_center().first,
-                                    global::player.get_center().second,
+                                   (global::_tank.get_center().first,
+                                    global::_tank.get_center().second,
                                     25.0f);
                    
 					global::monsters.emplace_back(spawn_x, spwan_y, 25.f, x, y);
@@ -308,7 +309,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         Bullet<dummy>::Draw_bullet_fence(hdc);
       
-        global::player.Draw(hdc);
+        global::_tank.Draw(hdc);
      
         for (auto& monster : global::monsters)
         {
