@@ -43,7 +43,7 @@ MoveableObject<DrawType>::MoveableObject
 template<typename DrawType>
 void MoveableObject<DrawType>::MoveByDir()&
 {
-    super::Move(move_dir_x, move_dir_y);
+    super::move(move_dir_x, move_dir_y);
 };
 
 template<typename DrawType>

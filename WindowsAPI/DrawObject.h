@@ -64,7 +64,7 @@ public:
 	}
 	RECT get_rect()const&;
 
-	void Move(const float x, const float y)&
+	void move(const float x, const float y)&
 	{
 		center_x += x;
 		center_y += y;

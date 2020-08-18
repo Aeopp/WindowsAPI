@@ -1,0 +1,30 @@
+#pragma once
+#include "object.h"
+
+class moveable_object :
+    public object
+{
+private:
+    std::pair<float, float> direction{};
+    float _speed{1.0f};
+public:
+    inline const auto& get_direction()const&
+    {
+        return direction;
+    }
+    inline void set_direction(decltype(direction) _direction)&
+    {
+        direction = _direction;
+    }
+	inline void set_speed(decltype(_speed) _speed)&
+	{
+        this->_speed = _speed;
+	}
+	inline const auto& get_speed()const&
+	{
+		return _speed;
+	}
+public:
+    void move()&;
+};
+

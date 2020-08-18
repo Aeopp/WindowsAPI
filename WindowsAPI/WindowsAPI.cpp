@@ -15,8 +15,9 @@
 namespace global 
 {
     player<draw_rect> _tank{};
-   
-    std::vector< MoveableObject<draw_rect>>monsters;
+    MoveableObject<draw_rect> _monster;
+
+    std::vector<MoveableObject<draw_rect>>monsters;
     std::vector<Bullet<draw_circle>> bullets;
 
     void Fire(const float, const float, const float, const float, const float,const float);
@@ -323,8 +324,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         RECT rt{ 0,0,250,250 };
         std::wstringstream ss;
 
-        ss << L"총알 개수 : " << global::bullets.size() << "\n\n";
-        ss << L"몬스터 숫자 : " << global::monsters.size() << "\n\n";
+        ss << L"총알 개수 : " << global::bullets._size() << "\n\n";
+        ss << L"몬스터 숫자 : " << global::monsters._size() << "\n\n";
 
         DrawText(hdc, ss.str().c_str(), -1, &rt, DT_CENTER | DT_WORDBREAK);
         

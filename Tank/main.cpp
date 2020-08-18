@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "framework.h"
 #include "Tank.h"
+#include "game.h"
 
 #define MAX_LOADSTRING 100
 
@@ -59,11 +60,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		else
 		{
             // TODO :: 여기에 게임 로직을 호출 합니다.
-
+            game::instance().update();
+            
 			InvalidateRect(hWnd, nullptr, false);
 			UpdateWindow(hWnd);
 		}
     }
+
+
+    game::instance().release();
+
 
     return (int) msg.wParam;
 }
@@ -121,6 +127,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
+   game::instance().initialize();
+
+
    return TRUE;
 }
 
@@ -172,11 +181,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		tmpDC = hdc;
 		hdc = MemDC;
 		MemDC = tmpDC;
-
 		// TODO: 여기에 그리기 코드를 추가합니다.
 
-
-
+        game::instance().render(hdc);
 
 		/** 더블버퍼링 끝처리 입니다. **/
 		tmpDC = hdc;

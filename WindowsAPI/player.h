@@ -1,3 +1,6 @@
+#include "..\Tank\player.h"
+#include "..\Tank\player.h"
+#include "..\Tank\player.h"
 #pragma once
 #include "DrawObject.h"
 #include <cmath>
@@ -9,7 +12,6 @@
 namespace global
 {
 	void Fire(const float, const float, const float, const float, const float, const float);
-
 }
 
 template<typename DrawType>
@@ -73,28 +75,65 @@ void player<DrawType>::Draw(HDC hdc) const&
 
 };
 
+inline void player::update()
+{
+}
+
+inline void player::render()
+{
+}
+
 template<typename DrawType>
 void player<DrawType>::initialize()&
 {
     super::set_center(500.0f, 500.0f);
     super::set_length(50.0f);
-};
+    set_barrel_dir({ 1,1 });
+}
+inline void player::release()
+{
+}
+;
 
 template<typename DrawType>
 void player<DrawType>::add_barrel_angle(const float radian) & noexcept
 {
     float alpha_angle = get_barrel_angle();
 
-    set_barrel_dir(
-        {
-            (std::cosf(alpha_angle) * std::cosf(radian)
-            - std::sinf(alpha_angle) * std::sinf(radian)),
+	const float _x_dir = barrel_dir.first;
+	const float _y_dir = barrel_dir.second;
 
-    (std::sinf(alpha_angle) * std::cosf(radian)
-        + std::cosf(alpha_angle) * std::sinf(radian))
-        });
+	/*barrel_dir.first = _x_dir * std::cosf(radian) - _y_dir * std::sinf(radian);
+	barrel_dir.second = _y_dir * std::cosf(radian) + _x_dir * std::sinf(radian);
 
-    set_barrel_angle(alpha_angle + radian);
+	set_barrel_angle(alpha_angle + radian);*/
+
+	set_barrel_dir(
+		{
+			(_x_dir * std::cosf(radian)
+			- _y_dir * std::sinf(radian)),
+
+	(_y_dir * std::cosf(radian)
+		+ _x_dir* std::sinf(radian))
+		});
+
+	set_barrel_angle(alpha_angle + radian);
+
+#pragma region Procedure
+    {
+		/*set_barrel_dir(
+			{
+				(std::cosf(alpha_angle) * std::cosf(radian)
+				- std::sinf(alpha_angle) * std::sinf(radian)),
+
+		(std::sinf(alpha_angle) * std::cosf(radian)
+			+ std::cosf(alpha_angle) * std::sinf(radian))
+			});
+
+		set_barrel_angle(alpha_angle + radian);*/
+    }
+#pragma endregion Procedure
+
 };
 
 template<typename DrawType>
@@ -104,9 +143,9 @@ template<typename DrawType>
      // 지워주세요. 
      static constexpr float temp_speed = 10.0f;
      if(bForward)
-         super::Move(x*temp_speed, y* temp_speed);
+         super::move(x*temp_speed, y* temp_speed);
      else 
-         super::Move(x * temp_speed *-1.f, y * temp_speed* -1.f);
+         super::move(x * temp_speed *-1.f, y * temp_speed* -1.f);
 }
 
  template<typename DrawType>

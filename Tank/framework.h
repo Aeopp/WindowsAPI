@@ -9,3 +9,16 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+
+#include <list>
+#include <memory>
+#include <map>
+#include <sstream>
+
+#include "math.h"
+
+#pragma warning ( disable : 4244)
+
+using type_hash_type = decltype(std::declval<std::type_info>().hash_code());
+
+

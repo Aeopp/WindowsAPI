@@ -51,7 +51,7 @@ public:
 public:
 	void Update(HWND hwnd)&
 	{
-		super::Move(dir_x*speed, dir_y* speed);
+		super::move(dir_x*speed, dir_y* speed);
 		RECT _windowRECT = Bullet::get_bullet_fence();
 
 		const auto [x,y]= super::get_center();
