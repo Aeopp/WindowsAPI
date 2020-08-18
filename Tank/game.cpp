@@ -2,9 +2,8 @@
 #include "game.h"
 #include "object.h"
 #include "player.h"
-#include "monster.h"
 #include "shield.h"
-
+#include "stalker.h"
 void game::render(HDC hdc)
 {
 	for (auto& objects : object_list)
@@ -31,13 +30,30 @@ void game::initialize()
 {
 	auto _player = insert_object<player>();
 
-	auto _monster = insert_object<monster>();
-	_monster->set_size({ 50.0f ,  50.0f });
-	_monster->set_location({ 200,200 });
+	auto _monster = insert_object<stalker>();
+	_monster->set_size({ 75.0f , 75.0f });
+	_monster->set_location({ 0,0 });
+	_monster->set_target(_player);
 
-	_monster = insert_object<monster>();
-	_monster->set_size({50.0f,50.0f});
-	_monster->set_location({600,200});
+	_monster = insert_object<stalker>();
+	_monster->set_size({75.0f,75.0f });
+	_monster->set_location({1200,0});
+	_monster->set_target(_player);
+
+	_monster = insert_object<stalker>();
+	_monster->set_size({ 75.0f,75.0f });
+	_monster->set_location({ 600,0 });
+	_monster->set_target(_player);
+
+	_monster = insert_object<stalker>();
+	_monster->set_size({ 75.0f,75.0f });
+	_monster->set_location({ 0,1500 });
+	_monster->set_target(_player);
+
+	_monster = insert_object<stalker>();
+	_monster->set_size({ 75.0f,75.0f });
+	_monster->set_location({ 1600,1600});
+	_monster->set_target(_player);
 }
 
 void game::release()

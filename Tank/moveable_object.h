@@ -6,7 +6,8 @@ class moveable_object :
 {
 private:
     std::pair<float, float> direction{};
-    float _speed{1.0f};
+    float _speed{ 1.0f };
+    GETSET(float,_owner_distance)
 public:
     inline const auto& get_direction()const&
     {
@@ -26,5 +27,7 @@ public:
 	}
 public:
     void move()&;
+    void rotation(const float degree)&;
+    void rotation_from_owner(const float degree)&;
 };
 

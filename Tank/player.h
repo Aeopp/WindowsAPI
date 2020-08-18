@@ -11,11 +11,15 @@ public:
 	virtual void render(HDC hdc)override;
 	virtual void initialize()override;
 	virtual void release()override;
-
 public:
 	void fire();
-
 private:
 	std::shared_ptr<class barrel> _barrel{ nullptr };
+public:
+	inline const auto& get_barrel()const&
+	{
+		return _barrel;
+	}
+private:
 };
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "barrel.h"
 #include "game.h"
-#include "bullet.h"
+#include "rotation_bullet.h"
 
 void barrel::update()
 {
@@ -27,7 +27,6 @@ void barrel::update()
 
 void barrel::render(HDC hdc)
 {
-
 	super::render(hdc);
 
 	const auto [x,y] = get_location();
@@ -35,18 +34,15 @@ void barrel::render(HDC hdc)
 
 	MoveToEx(hdc, (int)x, (int)y, nullptr);
 
-	LineTo(hdc,(int)x+ dx*barrel_length,
-			   (int)y+ dy* barrel_length);
+	LineTo(hdc,(int)x+ dx*_length,
+			   (int)y+ dy* _length);
 }
 
 void barrel::initialize()
 {
-	super::set_render_type(render_type::none);
+	super::initialize();
 
-	if (auto _owner = get_owner(); _owner!=nullptr)
-	{
-		super::set_location(_owner->get_location());
-	}
+	super::set_render_type(render_type::none);
 }
 
 uint32_t barrel::get_layer_id() const&
@@ -56,9 +52,31 @@ uint32_t barrel::get_layer_id() const&
 
 void barrel::fire()&
 {
-	const auto [x,y] = get_direction();
+	const auto [x, y] = get_direction();
 
 	auto _bullet = game::instance().insert_object<bullet>();
 
+	auto [loc_x, loc_y] = get_location();
+
+	loc_x += x * _length;
+	loc_y += y * _length;
+
+	_bullet->set_location({ loc_x,loc_y });
+	_bullet->set_direction(get_direction());
+};
+
+
+void barrel::rotation_fire()&
+{
+	const auto [x, y] = get_direction();
+
+	auto _bullet = game::instance().insert_object<rotation_bullet>();
+
+	auto [loc_x, loc_y] = get_location();
+
+	loc_x += x * _length;
+	loc_y += y * _length;
+
+	_bullet->set_location({ loc_x,loc_y });
 	_bullet->set_direction(get_direction());
 }

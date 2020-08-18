@@ -21,4 +21,5 @@
 
 using type_hash_type = decltype(std::declval<std::type_info>().hash_code());
 
+#define GETSET(T,member) private:T member{}; public: inline const auto& get##member()const& {return member;} inline void set##member(decltype(member)&& member)& {this->member=std::forward<decltype(member)>(member);}
 

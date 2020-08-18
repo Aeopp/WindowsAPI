@@ -20,7 +20,7 @@ template<typename object_type>
 {
 	std::shared_ptr<object_type> _ptr = std::make_shared<object_type>();
 
-	_ptr->set_my_ptr(_ptr);
+	_ptr->set_ptr(_ptr);
 
 	_ptr->initialize();
 

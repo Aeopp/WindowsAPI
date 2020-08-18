@@ -3,7 +3,8 @@
 
 void object::initialize()
 {
-
+	set_b_update_location_from_owner(true);
+	set_distance_from_owner({ 0,0 });
 }
 
 void object::render(HDC hdc)
@@ -28,6 +29,7 @@ void object::render(HDC hdc)
 
 void object::release()
 {
+
 }
 
 uint32_t object::get_layer_id() const&
@@ -37,9 +39,9 @@ uint32_t object::get_layer_id() const&
 
 void object::update()
 {
-	if (_owner)
+	if (_owner && get_b_update_location_from_owner())
 	{
-		set_location(_owner->get_location());
+		set_location(_owner->get_location() + this->get_distance_from_owner());
 	}
 }
 

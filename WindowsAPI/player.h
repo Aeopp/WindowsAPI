@@ -39,7 +39,7 @@ public:
     }
     inline  float get_barrel_length()const& noexcept
     {
-        return barrel_length;
+        return _length;
     }
     inline  float get_barrel_angle()const& noexcept
     {
@@ -71,7 +71,7 @@ void player<DrawType>::Draw(HDC hdc) const&
 
     const auto [dir_x,dir_y] = get_barrel_dir();
 
-    LineTo(hdc, x + dir_x*barrel_length, y +  dir_y * barrel_length);
+    LineTo(hdc, x + dir_x*_length, y +  dir_y * barrel_length);
 
 };
 
