@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "object.h"
 
+
 void object::initialize()
 {
 	set_b_update_location_from_owner(true);
 	set_distance_from_owner({ 0,0 });
+
+	_collision_component = std::make_unique<decltype(_collision_component)::element_type>();
 }
 
 void object::render(HDC hdc)
@@ -26,6 +29,20 @@ void object::render(HDC hdc)
 		break;
 	}
 };
+
+void object::Hit(std::weak_ptr<object> _obj_weak)
+{
+	if (auto _object = _obj_weak.lock(); _object)
+	{
+		
+	}
+}
+
+RECT object::get_collision_rect() const&
+{
+	return get_collision_component()->get_collision_rect(get_location(), get_size());
+}
+
 
 void object::release()
 {

@@ -5,12 +5,11 @@
 template<typename SubType>
 class singleton_interface abstract
 {
-public :
-	virtual void render(HDC hdc)abstract;
-	virtual void update()abstract;
-	virtual void initialize()abstract;
-	virtual void release()abstract;
-
+public:
+	virtual void render(HDC hdc){};
+	virtual void update(){};
+	virtual void initialize(){};
+	virtual void release() {};
 public:
 	[[nodiscard]] static SubType& instance()
 	{

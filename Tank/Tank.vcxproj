@@ -150,6 +150,8 @@
   <ItemGroup>
     <ClInclude Include="barrel.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="collision_component.h" />
+    <ClInclude Include="collision_manager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="layer_type.h" />
@@ -172,6 +174,8 @@
   <ItemGroup>
     <ClCompile Include="barrel.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="collision_component.cpp" />
+    <ClCompile Include="collision_manager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="monster.cpp" />

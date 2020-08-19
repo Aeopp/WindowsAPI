@@ -23,6 +23,8 @@ public:
 	// 이미 존재하는 방향으로부터 새로 더할려는 앵글만큼 방향 회전시켜서 리턴
 	static std::pair<float, float> rotation_dir_to_add_angle(const std::pair<float, float> dir,
 		const float degree);
+
+	static bool collision_rect_to_rect(const RECT lhs, const RECT rhs);
 };
 
 

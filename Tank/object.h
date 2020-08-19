@@ -3,6 +3,7 @@
 #include <functional>
 #include "render_type.h"
 #include "layer_type.h"
+#include "collision_component.h"
 
 class object abstract
 {
@@ -23,7 +24,11 @@ private:
 	float _angle_speed{ 1.0f };
 	bool bCollision{ true };
 	GETSET(bool,_b_update_location_from_owner);
+	GETSET(std::unique_ptr<collision_component>, _collision_component);
 	std::pair<float, float> _distance_from_owner;
+public:
+	virtual void Hit(std::weak_ptr<object> _object);
+	RECT get_collision_rect()const&;
 public:
 	inline const auto& get_distance_from_owner()const&;
 	inline void set_distance_from_owner(decltype(_distance_from_owner) _distance_from_owner)&;

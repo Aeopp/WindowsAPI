@@ -75,6 +75,12 @@
     <ClInclude Include="stalker.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="collision_manager.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_component.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -120,6 +126,12 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="stalker.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="collision_manager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="collision_component.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
