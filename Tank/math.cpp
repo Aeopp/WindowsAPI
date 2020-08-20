@@ -34,7 +34,7 @@
 
 	 const float lhs_half_height = (lhs.bottom- lhs.top) / 2;
 	 const float rhs_half_height = (rhs.bottom - rhs.top) / 2;
-
+	 
 	 const float rects_height= std::pow(lhs_half_height+ rhs_half_height, 2);
 	 const float  rects_distance_from_y = std::pow(rhs_half_height - lhs_half_height, 2);
 

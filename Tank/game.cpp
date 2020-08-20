@@ -19,21 +19,13 @@ void game::render(HDC hdc)
 
 void game::update()
 {
-	std::list<std::shared_ptr<object>> _collision_checked_obj_list;
-
 	for (auto& objects : object_list)
 	{
-		_collision_checked_obj_list.insert(std::back_inserter(_collision_checked_obj_list),
-		std::begin(objects.second), std::end(objects.second));
-
 		for (auto& _object : objects.second)
-		{
+		{	
 			_object->update();
 		}
 	};
-
-	
-	collision_manager::instance().collision_beetween_objects(_collision_checked_obj_list, _collision_checked_obj_list);
 }
 
 void game::initialize()
